@@ -9,6 +9,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.module.annotations.ReactModule;
 
 import androidx.annotation.NonNull;
+import com.facebook.ProfileTracker;
 
 /**
  * This is a {@link NativeModule} that allows JS to use FBSDKProfile info of the current logged user.
