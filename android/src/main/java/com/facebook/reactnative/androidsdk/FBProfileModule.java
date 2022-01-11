@@ -31,11 +31,23 @@ public class FBProfileModule extends ReactContextBaseJavaModule {
     * Get the current logged profile.
     * @param callback Use callback to pass the current logged profile back to JS.
     */
-    @ReactMethod
-    public void getCurrentProfile(Callback callback) {
-        //Return the profile object as a ReactMap.
-        callback.invoke(Profile.getCurrentProfile() == null
-                ? null
-                : Utility.profileToReactMap(Profile.getCurrentProfile()));
-  }
+     private ProfileTracker mProfileTracker;
+
+     @ReactMethod
+     public void getCurrentProfile(final Callback callback) {
+          //Return the profile object as a ReactMap.
+           if(Profile.getCurrentProfile() == null) {
+                  mProfileTracker = new ProfileTracker() {
+                      @Override
+                      protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                          callback.invoke(Utility.profileToReactMap(currentProfile));
+                          mProfileTracker.stopTracking();
+                      }
+                  };
+              }
+               else {
+                   callback.invoke(Utility.profileToReactMap(Profile.getCurrentProfile()));
+                  }
+
+    }
 }
